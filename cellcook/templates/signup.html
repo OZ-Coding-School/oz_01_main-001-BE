@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            width: 300px;
+            padding: 16px;
+            background-color: white;
+            margin: 0 auto;
+            margin-top: 50px;
+            border: 1px solid black;
+            border-radius: 4px;
+        }
+        .container h1 {
+            text-align: center;
+            color: #333;
+        }
+        .container form {
+            display: flex;
+            flex-direction: column;
+        }
+        .container form input {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        .container form button {
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .container form button:hover {
+            background-color: #0056b3;
+            width: 100%;
+        }
+        .checkbox-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .checkbox-container input {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sign up</h1>
+        <form method="post">
+            {% csrf_token %}
+            <input type="text" name="id" placeholder="ID" required>
+            <input
+            type="password1"
+            class="form-control"
+            id="password1"
+            name="password1"
+            placeholder="password"
+            required
+          />
+          <input
+            type="password2"
+            class="form-control"
+            id="password2"
+            name="password2"
+            placeholder="password confirmation"
+            required
+          />
+            <input type="email" name="email" placeholder="Email">
+            <div class="checkbox-container">
+                <label for="vegiterian">Vegiterian</label>
+                <input type="checkbox" id="vegiterian" name="vegiterian" value="베지테리언">
+
+            </div>
+            <a href="{% url 'login' %} "><button type="button">Signup</button>
+            </a>
+        </form>
+    </div>
+</body>
+</html>
