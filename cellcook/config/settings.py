@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'users',
+    'fridge',
 ] + THIRD_PART
 
 MIDDLEWARE = [
