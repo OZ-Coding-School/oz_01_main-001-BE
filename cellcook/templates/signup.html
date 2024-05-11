@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Register</title>
+    <title>Signup</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -58,34 +58,48 @@
 <body>
     <div class="container">
         <h1>Sign up</h1>
-        <form method="post">
+        <form method="post" >
             {% csrf_token %}
-            <input type="text" name="id" placeholder="ID" required>
+            <input type="text" name="username" placeholder="ID" required>
             <input
-            type="password1"
+            type="password"
             class="form-control"
             id="password1"
-            name="password1"
+            name="password"
             placeholder="password"
             required
-          />
-          <input
-            type="password2"
-            class="form-control"
-            id="password2"
-            name="password2"
-            placeholder="password confirmation"
-            required
-          />
+            />
+            <input type="password" id="confirm_password1" name="confirm_password" placeholder="Confirm Password" required>
             <input type="email" name="email" placeholder="Email">
+            <input type="text" name="nickname" placeholder="Nickname" required>
             <div class="checkbox-container">
-                <label for="vegiterian">Vegiterian</label>
-                <input type="checkbox" id="vegiterian" name="vegiterian" value="베지테리언">
+                <label for="vegitarian">Vegitarian</label>
+                <input type="checkbox" id="vegitarian" name="vegitarian" value="베지테리언">
 
             </div>
-            <a href="{% url 'login' %} "><button type="button">Signup</button>
-            </a>
+            <button type="submit">Sign Up</button>
+
         </form>
+        
+        <script>
+            function validatePassword() {
+                var password = document.getElementById('password1').value;
+                var confirmPassword = document.getElementById('password2').value;
+                var regex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/;
+            
+                if (!regex.test(password)) {
+                    alert('Password must contain at least one digit, one special character, and be at least 8 characters long.');
+                    return false;
+                }
+            
+                if (password !== confirmPassword) {
+                    alert('Passwords do not match.');
+                    return false;
+                }
+            
+                return true;
+            }
+            </script>
     </div>
 </body>
 </html>
