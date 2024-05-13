@@ -44,7 +44,9 @@ def signup(request):
                 nickname=nickname,
                 vegetarian=vegetarian,
             )
-            login(request, user)  # 사용자를 바로 로그인 시킴
+            login(request, user)
+            tokens = get_tokens_for_user(user)
+            # 사용자를 바로 로그인 시킴
             return redirect("fridge-main")  # 성공 시 fridge-main 페이지로 리디렉션
         else:
             # return redirect('fridge')  # 성공 시 fridge 페이지로 리디렉션
