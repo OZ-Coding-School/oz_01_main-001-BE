@@ -44,10 +44,13 @@ def signup(request):
                 nickname=nickname,
                 vegetarian=vegetarian,
             )
+            user.save()
+            user.backend = "django.contrib.auth.backends.ModelBackend"
             login(request, user)
             tokens = get_tokens_for_user(user)
             # 사용자를 바로 로그인 시킴
             return redirect("fridge-main")  # 성공 시 fridge-main 페이지로 리디렉션
+
         else:
             # return redirect('fridge')  # 성공 시 fridge 페이지로 리디렉션
             return render(
@@ -67,7 +70,7 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect("fridge")
+            return redirect("fridge-main")
         else:
             return render(request, "login.html", {"error": "Invalid login"})
     else:

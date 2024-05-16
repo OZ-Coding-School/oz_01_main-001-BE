@@ -4,9 +4,17 @@ from django.core.validators import EmailValidator
 
 
 class MyUserManager(BaseUserManager):
-    def create_user(self, username, email=None, password=None, nickname=None, vegetarian=False, **extra_fields):
+    def create_user(
+        self,
+        username,
+        email=None,
+        password=None,
+        nickname=None,
+        vegetarian=False,
+        **extra_fields
+    ):
         if not username:
-            raise ValueError('The given username must be set')
+            raise ValueError("The given username must be set")
         email = self.normalize_email(email)
         user = self.model(
             username=username,
@@ -33,20 +41,23 @@ class User(AbstractBaseUser):
     username = models.CharField(max_length=20, unique=True, primary_key=True)
     nickname = models.CharField(max_length=20)  # 필드 이름을 'nickname'으로 수정
     email = models.EmailField(
-        verbose_name='email address',
+        verbose_name="email address",
         max_length=255,
         unique=True,
         null=True,
-        validators=[EmailValidator(message="Enter a valid email address.")]
+        validators=[EmailValidator(message="Enter a valid email address.")],
     )
-    password = models.CharField(max_length=100)
     vegetarian = models.BooleanField(default=False)
     createdAt = models.DateTimeField(auto_now_add=True)
 
+    is_active = models.BooleanField(default=True)
+    is_superuser = models.BooleanField(default=False)  # 관리자 권한 필드 추가
+    is_staft = models.BooleanField(default=False)
+
     objects = MyUserManager()
 
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email', 'nickname']  # 필수 필드에 'email'과 'nickname' 추가
+    USERNAME_FIELD = "username"
+    REQUIRED_FIELDS = ["email", "nickname"]  # 필수 필드에 'email'과 'nickname' 추가
 
     def __str__(self):
         return self.username
