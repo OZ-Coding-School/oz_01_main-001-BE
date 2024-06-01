@@ -1,0 +1,28 @@
+<style>
+    .plus-icon {
+        width: 30px;
+        height: 30px;
+        background-color: transparent;
+        border: 2px solid #000;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .plus-icon::before {
+        content: '+';
+        font-size: 20px;
+        color: #000;
+    }
+
+    .plus-icon:hover {
+        background-color: #28a745;
+    }
+
+    .plus-icon:hover::before {
+        color: #fff;
+    }
+</style>

@@ -1,0 +1,130 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Fridge{% endblock %}</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/add_ingredient.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ccffcc !important;
+        }
+        
+        .container {
+            padding-top: 20px;
+        }
+        
+        .logout {
+            padding-left:1260px;
+        }
+        
+        table {
+    padding-top: 20px;
+}
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">My Fridge</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="logout">
+            <a href="{% url 'logout' %}">Logout</a>
+        </div>
+        
+    </nav>
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <!-- Ingredient Modal -->
+<div class="modal fade" id="ingredientModal" tabindex="-1" aria-labelledby="ingredientModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ingredientModalLabel">재료 추가</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="ingredientForm">
+                    <div class="mb-3">
+                        <label for="ingredientName" class="form-label">재료 이름</label>
+                        <input type="text" class="form-control" id="ingredientName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ingredientType" class="form-label">재료 유형</label>
+                        <input type="text" class="form-control" id="ingredientType" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="expirationDate" class="form-label">유통기한</label>
+                        <input type="date" class="form-control" id="expirationDate" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">추가</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 부트스트랩 CSS CDN -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- 부트스트랩 JS 및 의존성 CDN -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    document.getElementById('addIngredientIcon').addEventListener('click', function () {
+        var myModal = new bootstrap.Modal(document.getElementById('ingredientModal'), {});
+        myModal.show();
+    });
+
+    document.getElementById('ingredientForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        
+        var ingredientName = document.getElementById('ingredientName').value;
+        var ingredientType = document.getElementById('ingredientType').value;
+        var expirationDate = document.getElementById('expirationDate').value;
+
+        var csrfToken = '{{ csrf_token }}'; // CSRF 토큰을 가져옵니다
+
+        fetch('/add_ingredient/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken
+            },
+            body: JSON.stringify({
+                ingredient_name: ingredientName,
+                ingredient_type: ingredientType,
+                expiration_date: expirationDate
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                var tableBody = document.getElementById('ingredientTableBody');
+                var newRow = tableBody.insertRow();
+
+                var cell1 = newRow.insertCell(0);
+                var cell2 = newRow.insertCell(1);
+                var cell3 = newRow.insertCell(2);
+                var cell4 = newRow.insertCell(3);
+                
+                cell2.textContent = ingredientName;
+                cell3.textContent = ingredientType;
+                cell4.textContent = expirationDate;
+            }
+        });
+    });
+</script>
+</body>
+</html>
